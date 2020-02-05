@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="UIViewControllerUIViewController 类是 iOS 应用的关键组件，对于前端来说，可以简单认为一个UIViewController就是一个HTML tab页面，只不过它还包含iOS特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 RootView：视图根节点  生命周期目前先了解以下生命周期方法即可  loadView: view创建">
+<meta name="keywords" content="大前端,成为大前端,成为大前端-iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）">
+<meta property="og:url" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/index.html">
+<meta property="og:site_name" content="Mingo&#39;s Blog">
+<meta property="og:description" content="UIViewControllerUIViewController 类是 iOS 应用的关键组件，对于前端来说，可以简单认为一个UIViewController就是一个HTML tab页面，只不过它还包含iOS特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 RootView：视图根节点  生命周期目前先了解以下生命周期方法即可  loadView: view创建">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/run-button.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/run.png">
+<meta property="og:updated_time" content="2020-02-04T14:08:39.917Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）">
+<meta name="twitter:description" content="UIViewControllerUIViewController 类是 iOS 应用的关键组件，对于前端来说，可以简单认为一个UIViewController就是一个HTML tab页面，只不过它还包含iOS特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 RootView：视图根节点  生命周期目前先了解以下生命周期方法即可  loadView: view创建">
+<meta name="twitter:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/run-button.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/05/books/to-be-big-fe/common/2.1/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/04/books/to-be-big-fe/android/1.2/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&text=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&is_video=false&description=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）&body=Check out this article: http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&name=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UIViewController"><span class="toc-number">1.</span> <span class="toc-text">UIViewController</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期"><span class="toc-number">2.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RootView"><span class="toc-number">3.</span> <span class="toc-text">RootView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebView加载网页"><span class="toc-number">4.</span> <span class="toc-text">WebView加载网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">5.</span> <span class="toc-text">运行</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mingo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-03T16:00:00.000Z" itemprop="datePublished">2020-02-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/大前端/">大前端</a>, <a class="tag-link" href="/tags/成为大前端/">成为大前端</a>, <a class="tag-link" href="/tags/成为大前端-iOS/">成为大前端-iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="UIViewController"><a href="#UIViewController" class="headerlink" title="UIViewController"></a>UIViewController</h2><p>UIViewController 类是 iOS 应用的关键组件，对于前端来说，可以简单认为一个UIViewController就是一个HTML tab页面，只不过它还包含iOS特性的功能。</p>
+<p>目前先了解以下几点：</p>
+<ul>
+<li>生命周期：好比Vue/React的生命周期方法</li>
+<li>RootView：视图根节点</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>目前先了解以下生命周期方法即可</p>
+<ul>
+<li>loadView: view创建代码写在这里</li>
+<li>viewDidLoad：view加载完毕，view的操作在这</li>
+<li>viewWillAppear：view即将出现，还未渲染在屏幕上</li>
+<li>viewDidAppear： view已经出现，已经渲染在屏幕上</li>
+<li>viewWillDisappear：view即将消失</li>
+<li>viewDidDisappear：view已经消失</li>
+</ul>
+<h2 id="RootView"><a href="#RootView" class="headerlink" title="RootView"></a>RootView</h2><p>每一个UIViewController都有一个根节点：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">loadView</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 可以通过self.view访问根节点，根节点默认大小是全屏的</span></span><br><span class="line">        <span class="keyword">self</span>.view = <span class="type">UIView</span>()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可以通过self.view.addSubView添加子view</span></span><br><span class="line">        <span class="keyword">let</span> label = <span class="type">UILabel</span>()</span><br><span class="line">        label.text = <span class="string">"Hello world"</span></span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(label)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="keyword">self</span>.view)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面要注意的是，self.view在loadView中初始化，在viewDidLoad中访问<br>如果没有override loadView，默认是个空的UIView，viewDidLoad任然可以使用</p>
+</blockquote>
+<h2 id="WebView加载网页"><a href="#WebView加载网页" class="headerlink" title="WebView加载网页"></a>WebView加载网页</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"><span class="comment">// 引入iOS的WebKit库</span></span><br><span class="line"><span class="keyword">import</span> WebKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span>, <span class="title">WKUIDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> webView: <span class="type">WKWebView!</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 创建WebView，先不用理解Configuration</span></span><br><span class="line">        <span class="keyword">let</span> config = <span class="type">WKWebViewConfiguration</span>()</span><br><span class="line">        webView = <span class="type">WKWebView</span>(frame: <span class="keyword">self</span>.view.frame, configuration: config)</span><br><span class="line">        webView.uiDelegate = <span class="keyword">self</span></span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(webView)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 加载百度页面</span></span><br><span class="line">        <span class="keyword">let</span> url = <span class="type">URL</span>(string:<span class="string">"https://www.baidu.com"</span>)!</span><br><span class="line">        <span class="keyword">let</span> request = <span class="type">URLRequest</span>(url: url)</span><br><span class="line">        webView.load(request)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>选择一个模拟器运行，模拟器启动需要几分钟时间，你也可以使用真机测试。</p>
+<p><img class="img400 align-left" src="./run-button.png"></p>
+<p>效果图：</p>
+<p><img class="img400 align-left" src="./run.png"></p>
+<p>到这就完成了WebView加载网页。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UIViewController"><span class="toc-number">1.</span> <span class="toc-text">UIViewController</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期"><span class="toc-number">2.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RootView"><span class="toc-number">3.</span> <span class="toc-text">RootView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebView加载网页"><span class="toc-number">4.</span> <span class="toc-text">WebView加载网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">5.</span> <span class="toc-text">运行</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&text=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&is_video=false&description=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）&body=Check out this article: http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&title=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/ios/1.2/&name=《成为大前端》1.2 WebView加载网页 - UIViewController和WebView加载网页（iOS）&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Mingo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-104420582-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

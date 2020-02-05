@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="先来看一个简单的使用 Java 语言的单例模式，如下： 1234567public class FileSystem &amp;#123;    public static final FileSystem singleton = new FileSystem();  private FileSystem() &amp;#123;&amp;#125;&amp;#125; 实现单例模式有多种方式，这里想要讨论的点是关 single">
+<meta name="keywords" content="代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单例变量命名的意义">
+<meta property="og:url" content="http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/index.html">
+<meta property="og:site_name" content="Mingo&#39;s Blog">
+<meta property="og:description" content="先来看一个简单的使用 Java 语言的单例模式，如下： 1234567public class FileSystem &amp;#123;    public static final FileSystem singleton = new FileSystem();  private FileSystem() &amp;#123;&amp;#125;&amp;#125; 实现单例模式有多种方式，这里想要讨论的点是关 single">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-01T15:21:29.099Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单例变量命名的意义">
+<meta name="twitter:description" content="先来看一个简单的使用 Java 语言的单例模式，如下： 1234567public class FileSystem &amp;#123;    public static final FileSystem singleton = new FileSystem();  private FileSystem() &amp;#123;&amp;#125;&amp;#125; 实现单例模式有多种方式，这里想要讨论的点是关 single">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>单例变量命名的意义</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/08/18/ui/app-ui-detail-optimizing/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&text=单例变量命名的意义"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&is_video=false&description=单例变量命名的意义"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=单例变量命名的意义&body=Check out this article: http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&name=单例变量命名的意义&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        单例变量命名的意义
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mingo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-08-10T10:18:18.000Z" itemprop="datePublished">2017-08-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/代码/">代码</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>先来看一个简单的使用 <strong>Java</strong> 语言的单例模式，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileSystem</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem singleton = <span class="keyword">new</span> FileSystem();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">FileSystem</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现单例模式有多种方式，这里想要讨论的点是关 <strong>singleton</strong> 这个单例使用不同名字所表现出的意义</p>
+<p>在iOS平台，<strong>swift</strong> 官方库中，常常会见到以下单例命名：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">FileManager</span>.<span class="keyword">default</span></span><br><span class="line"><span class="type">Bundle</span>.main</span><br><span class="line"><span class="type">SessionManager</span>.<span class="keyword">default</span></span><br><span class="line"><span class="type">URLSession</span>.shared</span><br></pre></td></tr></table></figure>
+<p>而在 <strong>Java</strong> 中通常会使用一个方法：(懒加载模式)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Singleton.getInstance()</span><br></pre></td></tr></table></figure>
+<p>在写了和使用了无数单例之后，我自己对于单例变量的命名也开始有了要求了，这里给出我自己的思考</p>
+<p>假定我们要实现一个文件系统IO</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FileSystem.java</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">FileSystem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem singleton = <span class="keyword">new</span> FileSystemImpl(<span class="string">"/"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="function">String <span class="title">readFile</span><span class="params">(String path)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// FileSystemImpl.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileSystemImpl</span> <span class="keyword">implements</span> <span class="title">FileSystem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> String rootPath;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="title">constructor</span><span class="params">(String rootPath)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.rootPath = rootPath;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">readFile</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line">FileSystem.singleton.readFile(<span class="string">"/some/absolute/path"</span>);</span><br><span class="line">FileSystem.singleton.readFile(<span class="string">"some/relative/path"</span>);</span><br></pre></td></tr></table></figure>
+<p>一切都显得非常合理，接下来做一些优化，当我们需要经常读取某几个路径下的文件，或者说有时我们想限制在某个路径下读取文件，刚可以如下做</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">FileSystem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem <span class="keyword">default</span> = <span class="keyword">new</span> FileSystemImpl(<span class="string">"/"</span>);</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem user = <span class="keyword">new</span> FileSystemImpl(<span class="string">"/Users/mingo"</span>);</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem document = <span class="keyword">new</span> FileSystemImpl(<span class="string">"/Users/mingo/Docuemnts"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当一个单例会出现有限的多例时，命明的意义就出现了，<strong>singleton</strong> 给人的感觉是这个类只能是个单例，不能再创建，而 <strong>default</strong> 给人的感觉就是这个类默认使用 <strong>default</strong> ，可以再创建用于其他用途的。</p>
+<p>这就是单例变量命名的意义，虽然作用不大，可以一直使用singleton就行，但如果我们追求明确的语义时，<strong>singleton</strong> 就显得无意义了。</p>
+<p>下面给出一种和 <strong>singleton</strong> 同样无意义的命名：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> UserManager manager = <span class="keyword">new</span> UserManager()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>manager</strong> 同样也表现出无意义，甚至不如 <strong>singleton</strong> ，至少 <strong>singleton</strong> 还表现出了这是一个单例变量，而 <strong>manager</strong> 却要求我们检查一下代码才知道。因此在团队合作中最好使用一个固定的变量名，比如：</p>
+<ul>
+<li><strong>singleton</strong> 表示唯一单例</li>
+<li><strong>default</strong> 表示创建出来的单例使用的是默认参数</li>
+<li><strong>其他有意义的命名</strong> 表示有意义的用途</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&text=单例变量命名的意义"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&is_video=false&description=单例变量命名的意义"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=单例变量命名的意义&body=Check out this article: http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&title=单例变量命名的意义"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2017/08/10/coding/design-pattern-singleton/&name=单例变量命名的意义&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Mingo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-104420582-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

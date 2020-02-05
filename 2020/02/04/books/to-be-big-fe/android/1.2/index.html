@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="ActivityActivity 类是 Android 应用的关键组件，对于前端来说，可以简单认为一个Activity就是一个HTML tab页面，只不过它还包含Android特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 ContentView：视图根节点  Activity生命周期大概了解一下  ContentView要了解ContentView，先了解一">
+<meta name="keywords" content="大前端,成为大前端,成为大前端-Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）">
+<meta property="og:url" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/index.html">
+<meta property="og:site_name" content="Mingo&#39;s Blog">
+<meta property="og:description" content="ActivityActivity 类是 Android 应用的关键组件，对于前端来说，可以简单认为一个Activity就是一个HTML tab页面，只不过它还包含Android特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 ContentView：视图根节点  Activity生命周期大概了解一下  ContentView要了解ContentView，先了解一">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/activity-lifecycle.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/layout-xml.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/main-activity.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/manifest.jpg">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/as-tip1.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/as-tip2.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/devices.png">
+<meta property="og:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/run.jpg">
+<meta property="og:updated_time" content="2020-02-04T14:08:30.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）">
+<meta name="twitter:description" content="ActivityActivity 类是 Android 应用的关键组件，对于前端来说，可以简单认为一个Activity就是一个HTML tab页面，只不过它还包含Android特性的功能。 目前先了解以下几点：  生命周期：好比Vue/React的生命周期方法 ContentView：视图根节点  Activity生命周期大概了解一下  ContentView要了解ContentView，先了解一">
+<meta name="twitter:image" content="http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/activity-lifecycle.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/04/books/to-be-big-fe/ios/1.2/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/03/books/to-be-big-fe/ios/1.1/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&text=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&is_video=false&description=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）&body=Check out this article: http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&name=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity"><span class="toc-number">1.</span> <span class="toc-text">Activity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity生命周期"><span class="toc-number">1.1.</span> <span class="toc-text">Activity生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ContentView"><span class="toc-number">1.2.</span> <span class="toc-text">ContentView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Application"><span class="toc-number">2.</span> <span class="toc-text">Application</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AndroidManifest-xml"><span class="toc-number">2.1.</span> <span class="toc-text">AndroidManifest.xml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附带Google官方详细文档参阅（可以跳过）"><span class="toc-number">3.</span> <span class="toc-text">附带Google官方详细文档参阅（可以跳过）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebView加载网页"><span class="toc-number">4.</span> <span class="toc-text">WebView加载网页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动提示"><span class="toc-number">4.1.</span> <span class="toc-text">自动提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shift-Enter引入"><span class="toc-number">4.2.</span> <span class="toc-text">Shift+Enter引入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置网络权限"><span class="toc-number">5.</span> <span class="toc-text">配置网络权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">6.</span> <span class="toc-text">运行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开Android手机调试模式"><span class="toc-number">6.1.</span> <span class="toc-text">打开Android手机调试模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行后的效果"><span class="toc-number">6.2.</span> <span class="toc-text">运行后的效果</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mingo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-03T16:00:00.000Z" itemprop="datePublished">2020-02-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/大前端/">大前端</a>, <a class="tag-link" href="/tags/成为大前端/">成为大前端</a>, <a class="tag-link" href="/tags/成为大前端-Android/">成为大前端-Android</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h2><p>Activity 类是 Android 应用的关键组件，对于前端来说，可以简单认为一个Activity就是一个HTML tab页面，只不过它还包含Android特性的功能。</p>
+<p>目前先了解以下几点：</p>
+<ul>
+<li>生命周期：好比Vue/React的生命周期方法</li>
+<li>ContentView：视图根节点</li>
+</ul>
+<h3 id="Activity生命周期"><a href="#Activity生命周期" class="headerlink" title="Activity生命周期"></a>Activity生命周期</h3><p>大概了解一下</p>
+<p><img class="img400 align-left" src="./activity-lifecycle.png"></p>
+<h3 id="ContentView"><a href="#ContentView" class="headerlink" title="ContentView"></a>ContentView</h3><p>要了解ContentView，先了解一下Android的布局XML文件，打开 <code>app/res/layout/activity_main.xml</code>:</p>
+<p><img src="./layout-xml.png" alt="布局XML与预览"></p>
+<ol>
+<li>XML：使用XML描述UI结构，类似DOM使用HTML描述</li>
+<li>预览开关：此处可打开和关闭预览</li>
+<li>实时预览部分</li>
+</ol>
+<p>Android通常让我们通过书写XML来构建基本的View结构，尽管还有其他方法，但是现在我们先了解XML。</p>
+<blockquote>
+<p>DOM不是也有动态生成吗，Android也可以通过代码动态构建）</p>
+</blockquote>
+<p>了解完后打开MainActivity.kt：</p>
+<p><img class="img400 align-left" src="./main-activity.png"></p>
+<p>代码如下，请看注释：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.tobebigfe</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里继承了AppCompatActivity，因此我们的类就是一个Activity了</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 我们重写了父类的onCreate生命周期，做一些我们的事情</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 必须调用父类onCreate</span></span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">          重点：(感性理解即可)</span></span><br><span class="line"><span class="comment">              1. 前面说过的布局文件activity_main.xml</span></span><br><span class="line"><span class="comment">              2. 编译器会为我们生成R.layout.activity_main变量</span></span><br><span class="line"><span class="comment">              3. 这个变量代表activity_main这个布局</span></span><br><span class="line"><span class="comment">              4. setContentView表示给这个Activity设置ContentView</span></span><br><span class="line"><span class="comment">              5. Activity会使用这个布局，这样打开这个Activity就会构建这个布局的view</span></span><br><span class="line"><span class="comment">        */</span> </span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h2><blockquote>
+<p>接下来了解一下Android App启动时发生了什么</p>
+</blockquote>
+<h3 id="AndroidManifest-xml"><a href="#AndroidManifest-xml" class="headerlink" title="AndroidManifest.xml"></a>AndroidManifest.xml</h3><p>又一个XML文件，它描述了当前App的一些配置项。</p>
+<p>一个粗略的启动步骤：</p>
+<ol>
+<li>当一个App启动时会读取到<code>AndroidManifest.xml</code>的配置</li>
+<li>生产一个Application实例（如果没有配置则使用android.app.Application）</li>
+<li>Application启动后会先找到配置为启动的Activity（见下文的xml注释）</li>
+<li>创建这个Activity，并调用onCreate方法</li>
+<li>Activity就会显示界面</li>
+</ol>
+<p>AndroidManifest.xml配置说明：</p>
+<p><img class="img400 align-left" src="./manifest.jpg"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.example.tobebigfe"</span>&gt;</span><span class="comment">&lt;!-- 默认包名，了解一下即可 --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 声明一个application --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:ignore</span>=<span class="string">"GoogleAppIndexingWarning"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 声明MainActivity   “.“ 就是使用默认包名 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 声明MainActivity用于启动app时入口Activity，第一时间启动本activity --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="附带Google官方详细文档参阅（可以跳过）"><a href="#附带Google官方详细文档参阅（可以跳过）" class="headerlink" title="附带Google官方详细文档参阅（可以跳过）"></a>附带Google官方详细文档参阅（可以跳过）</h2><blockquote>
+<p>本文没讲的Android细节知识，需要时间自己看文档和实践</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.android.com/guide/components/activities/intro-activities.html" target="_blank" rel="noopener">Activity</a></li>
+<li><a href="https://developer.android.com/guide/components/fundamentals#Manifest" target="_blank" rel="noopener">AndroidManifest.xml</a></li>
+<li><a href="https://developer.android.com/guide/topics/ui/declaring-layout" target="_blank" rel="noopener">布局</a></li>
+</ul>
+<h2 id="WebView加载网页"><a href="#WebView加载网页" class="headerlink" title="WebView加载网页"></a>WebView加载网页</h2><p>打开<code>app/res/layout/activity_main.xml</code>，删除TextView, 添加一个WebView，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">        这里添加一个铺满Activity的WebView </span></span><br><span class="line"><span class="comment">        并且添加了一个id，名为webView</span></span><br><span class="line"><span class="comment">        这里非常类似DOM的id属性，主要用于在代码中查找和使用</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">WebView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/webView"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在MainActivity中使用这个WebView</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ackage com.example.tobebigfe</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient</span><br><span class="line"><span class="keyword">import</span> kotlinx.android.synthetic.main.activity_main.*</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// webView变量对应layout里的id，只有kotlin有这个功能</span></span><br><span class="line">        <span class="comment">// 打开js开关，让网页不禁用js代码</span></span><br><span class="line">        webView.settings.javaScriptEnabled = <span class="literal">true</span></span><br><span class="line">        <span class="comment">// 创建一个WebViewClient，否则有可能使用系统的浏览器在外部打开，而不是webview的效果</span></span><br><span class="line">        webView.webViewClient = WebViewClient()</span><br><span class="line">        <span class="comment">// 加载网页</span></span><br><span class="line">        webView.loadUrl(<span class="string">"https://baidu.com"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是最终代码，但这里讲解2个AndroidStudio提供的功能，以备后续高效编写代码</p>
+<h3 id="自动提示"><a href="#自动提示" class="headerlink" title="自动提示"></a>自动提示</h3><p>AndroidStudio基于IDEA编辑器，代码提示非常非常充足和聪明，通常写kotlin会非常幸福</p>
+<p><img class="img500 align-left" src="./as-tip1.png"></p>
+<h3 id="Shift-Enter引入"><a href="#Shift-Enter引入" class="headerlink" title="Shift+Enter引入"></a>Shift+Enter引入</h3><p>假如我们没有用到自动提示，比如复制代码进编辑器里，这时我们把光标移动到这行代码，编辑器依然会提示你要引入内容</p>
+<p><img class="img500 align-left" src="./as-tip2.png"></p>
+<blockquote>
+<p>及时没有提示，也可以Shift+Enter尝试引入，通常会正确引入所需<br>可以不用动光标，通过连续的Shift+Enter一步步引入尽可能多需要的</p>
+</blockquote>
+<h2 id="配置网络权限"><a href="#配置网络权限" class="headerlink" title="配置网络权限"></a>配置网络权限</h2><p>在AndroidManifest.xml中添加网络权限，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">...</span> </span></span><br><span class="line"><span class="tag"><span class="attr">package</span>=<span class="string">"com.example.tobebigfe"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">application</span> <span class="attr">...</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="打开Android手机调试模式"><a href="#打开Android手机调试模式" class="headerlink" title="打开Android手机调试模式"></a>打开Android手机调试模式</h3><p>推荐使用百度搜索特定机型，比如：</p>
+<ul>
+<li>华为手机打开usb调试模式</li>
+<li>小米手机打开usb调试模式</li>
+</ul>
+<p>完成后，插上USB线连接电脑和手机，连接好后，如下：</p>
+<p><img class="img500 align-left" src="./devices.png"></p>
+<p>图中出现了我的设备，HUAWEI LIO-AN00，那么按图中的三角形运行</p>
+<blockquote>
+<p>注意不是列表下面的Pixel 2 API 28, 这个是模拟器<br>如果这一步设备没有出现设备，需要百度解决一下</p>
+</blockquote>
+<h3 id="运行后的效果"><a href="#运行后的效果" class="headerlink" title="运行后的效果"></a>运行后的效果</h3><p><img class="img400 align-left" src="./run.jpg"></p>
+<p>到这就完成了WebView加载网页。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity"><span class="toc-number">1.</span> <span class="toc-text">Activity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity生命周期"><span class="toc-number">1.1.</span> <span class="toc-text">Activity生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ContentView"><span class="toc-number">1.2.</span> <span class="toc-text">ContentView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Application"><span class="toc-number">2.</span> <span class="toc-text">Application</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AndroidManifest-xml"><span class="toc-number">2.1.</span> <span class="toc-text">AndroidManifest.xml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附带Google官方详细文档参阅（可以跳过）"><span class="toc-number">3.</span> <span class="toc-text">附带Google官方详细文档参阅（可以跳过）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebView加载网页"><span class="toc-number">4.</span> <span class="toc-text">WebView加载网页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动提示"><span class="toc-number">4.1.</span> <span class="toc-text">自动提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shift-Enter引入"><span class="toc-number">4.2.</span> <span class="toc-text">Shift+Enter引入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置网络权限"><span class="toc-number">5.</span> <span class="toc-text">配置网络权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">6.</span> <span class="toc-text">运行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开Android手机调试模式"><span class="toc-number">6.1.</span> <span class="toc-text">打开Android手机调试模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行后的效果"><span class="toc-number">6.2.</span> <span class="toc-text">运行后的效果</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&text=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&is_video=false&description=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）&body=Check out this article: http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&title=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://zzmingo.github.io/2020/02/04/books/to-be-big-fe/android/1.2/&name=《成为大前端》1.2 WebView加载网页 - Activity和WebView加载网页（Android）&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Mingo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-104420582-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
